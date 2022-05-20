@@ -25,14 +25,12 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import List, Union
+<pre><code class="python">from typing import List, Union, Dict
 import numpy as np
-import pandas as pd
-
 from . import aa_letters
 
 
-def seq_to_one_hot(sequence: str, aa_key: dict) -&gt; np.ndarray:
+def seq_to_one_hot(sequence: str, aa_key: Dict[str, int]) -&gt; np.ndarray:
     &#34;&#34;&#34;
 
     Parameters
@@ -68,7 +66,7 @@ def to_one_hot(seqlist: Union[str, List[str]], alphabet: List[str] = aa_letters)
     -------
     numpy.ndarray
     &#34;&#34;&#34;
-    aa_key: dict = {l: i for i, l in enumerate(alphabet)}
+    aa_key: Dict[str, int] = {l: i for i, l in enumerate(alphabet)}
     if type(seqlist) == str:
         return seq_to_one_hot(seqlist, aa_key)
     else:
@@ -76,50 +74,7 @@ def to_one_hot(seqlist: Union[str, List[str]], alphabet: List[str] = aa_letters)
         prot: str
         for prot in seqlist:
             encoded_seqs.append(seq_to_one_hot(prot, aa_key))
-        return np.stack(encoded_seqs)
-
-
-def right_pad(seqlist, target_length=None):
-    if target_length is None:
-        return seqlist
-    assert isinstance(target_length, int), &#39;Unknown format for argument padding&#39;
-    # handle padding either integer or character representations of sequences
-    pad_char = &#39;-&#39; if isinstance(seqlist[0], str) else [0] if isinstance(seqlist[0], list) else None
-    return [seq + pad_char * (target_length - len(seq)) for seq in seqlist]
-
-
-def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
-                      padding: int = 504, shuffle: bool = True, alphabet: List[str] = aa_letters):
-    if type(seqlist) == pd.Series:
-        seqlist = seqlist.values
-    if type(seqlist) == list:
-        seqlist = np.array(seqlist)
-    if type(conditions) == list:
-        conditions = np.array(conditions)
-
-    epoch: int = 0
-
-    while True:
-        # shuffle
-        if shuffle:
-            perm: np.ndarray = np.random.permutation(len(seqlist))
-            prots = seqlist[perm]
-            if conditions is not None:
-                conds = conditions[perm]
-        else:
-            prots = seqlist
-            conds = conditions
-
-        i: int
-        for i in range(len(prots) // batch_size):
-            batch: np.ndarray = to_one_hot(right_pad(prots[i * batch_size:(i + 1) * batch_size], padding),
-                                           alphabet=alphabet)
-            if conditions is not None:
-                yield [batch, conds[i * batch_size:(i + 1) * batch_size]], batch
-            else:
-                yield batch, batch
-
-        epoch += 1</code></pre>
+        return np.stack(encoded_seqs)</code></pre>
 </details>
 </section>
 <section>
@@ -129,69 +84,8 @@ def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="CLI.utils.data_loaders.one_hot_generator"><code class="name flex">
-<span>def <span class="ident">one_hot_generator</span></span>(<span>seqlist, conditions=None, batch_size: int = 32, padding: int = 504, shuffle: bool = True, alphabet: List[str] = ['-', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y'])</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
-                      padding: int = 504, shuffle: bool = True, alphabet: List[str] = aa_letters):
-    if type(seqlist) == pd.Series:
-        seqlist = seqlist.values
-    if type(seqlist) == list:
-        seqlist = np.array(seqlist)
-    if type(conditions) == list:
-        conditions = np.array(conditions)
-
-    epoch: int = 0
-
-    while True:
-        # shuffle
-        if shuffle:
-            perm: np.ndarray = np.random.permutation(len(seqlist))
-            prots = seqlist[perm]
-            if conditions is not None:
-                conds = conditions[perm]
-        else:
-            prots = seqlist
-            conds = conditions
-
-        i: int
-        for i in range(len(prots) // batch_size):
-            batch: np.ndarray = to_one_hot(right_pad(prots[i * batch_size:(i + 1) * batch_size], padding),
-                                           alphabet=alphabet)
-            if conditions is not None:
-                yield [batch, conds[i * batch_size:(i + 1) * batch_size]], batch
-            else:
-                yield batch, batch
-
-        epoch += 1</code></pre>
-</details>
-</dd>
-<dt id="CLI.utils.data_loaders.right_pad"><code class="name flex">
-<span>def <span class="ident">right_pad</span></span>(<span>seqlist, target_length=None)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def right_pad(seqlist, target_length=None):
-    if target_length is None:
-        return seqlist
-    assert isinstance(target_length, int), &#39;Unknown format for argument padding&#39;
-    # handle padding either integer or character representations of sequences
-    pad_char = &#39;-&#39; if isinstance(seqlist[0], str) else [0] if isinstance(seqlist[0], list) else None
-    return [seq + pad_char * (target_length - len(seq)) for seq in seqlist]</code></pre>
-</details>
-</dd>
 <dt id="CLI.utils.data_loaders.seq_to_one_hot"><code class="name flex">
-<span>def <span class="ident">seq_to_one_hot</span></span>(<span>sequence: str, aa_key: dict) ‑> numpy.ndarray</span>
+<span>def <span class="ident">seq_to_one_hot</span></span>(<span>sequence: str, aa_key: Dict[str, int]) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="parameters">Parameters</h2>
@@ -210,7 +104,7 @@ def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def seq_to_one_hot(sequence: str, aa_key: dict) -&gt; np.ndarray:
+<pre><code class="python">def seq_to_one_hot(sequence: str, aa_key: Dict[str, int]) -&gt; np.ndarray:
     &#34;&#34;&#34;
 
     Parameters
@@ -266,7 +160,7 @@ def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
     -------
     numpy.ndarray
     &#34;&#34;&#34;
-    aa_key: dict = {l: i for i, l in enumerate(alphabet)}
+    aa_key: Dict[str, int] = {l: i for i, l in enumerate(alphabet)}
     if type(seqlist) == str:
         return seq_to_one_hot(seqlist, aa_key)
     else:
@@ -295,8 +189,6 @@ def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="CLI.utils.data_loaders.one_hot_generator" href="#CLI.utils.data_loaders.one_hot_generator">one_hot_generator</a></code></li>
-<li><code><a title="CLI.utils.data_loaders.right_pad" href="#CLI.utils.data_loaders.right_pad">right_pad</a></code></li>
 <li><code><a title="CLI.utils.data_loaders.seq_to_one_hot" href="#CLI.utils.data_loaders.seq_to_one_hot">seq_to_one_hot</a></code></li>
 <li><code><a title="CLI.utils.data_loaders.to_one_hot" href="#CLI.utils.data_loaders.to_one_hot">to_one_hot</a></code></li>
 </ul>
