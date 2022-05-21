@@ -14,7 +14,8 @@
  <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
  <body>
-  <div md-src-pos="0..3071">
+ <main>
+  <div md-src-pos="0..3071" id="content">
    <h1 md-src-pos="0..29">Architecture Design Process</h1>
    <h3 md-src-pos="31..50">Basic structure</h3>
    <p md-src-pos="52..719"><span md-src-pos="52..174">The file structure of the project as a whole was largely determined by the requirements for building Python packages using</span> <a href="https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/" md-src-pos="175..274">setuptools</a><span md-src-pos="274..275">.</span> <span md-src-pos="277..331">All of the metadata needs to be in the base directory,</span> <span md-src-pos="332..388">with all of the code inside of folders for each package.</span> <span md-src-pos="390..432">Rather than listing each one in setup.cfg,</span> <span md-src-pos="433..456">we relied on setuptools</span>'<span md-src-pos="457..487">s automatic package discovery,</span> <span md-src-pos="488..538">which means each folder used as a package needs an</span> <code md-src-pos="539..552">__init__.py</code> <span md-src-pos="553..571">file inside of it.</span> <span md-src-pos="573..582">We used a</span> <a href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout" md-src-pos="583..679">flat layout</a><span md-src-pos="679..680">,</span> <span md-src-pos="681..719">since there was only one root package.</span></p>
@@ -25,5 +26,25 @@
    <p md-src-pos="1774..2472"><code md-src-pos="1774..1785">search.py</code> <span md-src-pos="1786..1807">also uses subparsers,</span> <span md-src-pos="1808..1835">so the first argument after</span> <code md-src-pos="1836..1844">search</code> <span md-src-pos="1845..1873">selects which parser to use.</span> <span md-src-pos="1875..1914">One of them does latent space searches,</span> <span md-src-pos="1915..1955">and inherits both of the parent parsers,</span> <span md-src-pos="1956..2013">and the other handles sequence searches and only inherits</span> <code md-src-pos="2014..2033">output_opt_parser</code><span md-src-pos="2033..2034">.</span> <span md-src-pos="2036..2111">A third subparser was added to print the full list of protein family names,</span> <span md-src-pos="2112..2124">but it doesn</span>'<span md-src-pos="2125..2209">t accept any arguments and functions more like a flag when used at the command line.</span> <span md-src-pos="2211..2263">Each subparser goes to a different function after it</span>'<span md-src-pos="2264..2271">s used,</span> <span md-src-pos="2272..2280">so there</span>'<span md-src-pos="2281..2325">s no need to guess which one the users used.</span> <span md-src-pos="2327..2411">Both latent space searches and sequence searches can accept any number of filenames,</span> <span md-src-pos="2412..2472">which it appends to a list stored in the argparse namespace.</span></p>
    <p md-src-pos="2474..3071"><code md-src-pos="2474..2486">compare.py</code> <span md-src-pos="2487..2525">only uses a single parser in the file,</span> <span md-src-pos="2526..2575">but it still inherits both of the parent parsers.</span> <span md-src-pos="2577..2650">Since users can give either a protein family name or a filename as input,</span> <span md-src-pos="2651..2703">it first tries treating it as a protein family name,</span> <span md-src-pos="2704..2720">but if there isn</span>'<span md-src-pos="2721..2749">t a family with that name it</span>'<span md-src-pos="2750..2774">s treated as a filename.</span> <span md-src-pos="2776..2806">It requires exactly two family</span> <span md-src-pos="2807..2808">/</span> <span md-src-pos="2809..2845">file names to be given as arguments,</span> <span md-src-pos="2846..2898">which it stores in a list in the argparse namespace.</span> <span md-src-pos="2900..2932">Since it requires two arguments,</span> <span md-src-pos="2933..2973">in order to list the known family names,</span> <span md-src-pos="2974..2992">users need to type</span> <code md-src-pos="2993..3005">list names</code><span md-src-pos="3005..3006">,</span> <span md-src-pos="3007..3071">which it then checks for before calling the comparison function.</span></p>
   </div>
+  <nav id="sidebar">
+   <h1>Index</h1>
+   <div class="toc">
+    <ul></ul>
+   </div>
+   <ul id="index">
+    <li><h3>Super-module</h3>
+     <ul>
+      <li><code><a title="CLI" href="index.html">CLI</a></code></li>
+     </ul>
+    </li>
+    <li><h3><a href="#header-functions" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Functions</a></h3>
+     <ul class="">
+      <li><code><a title="CLI.compare.main" href="#CLI.compare.main" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">main</a></code></li>
+      <li><code><a title="CLI.compare.run" href="#CLI.compare.run" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">run</a></code></li>
+     </ul>
+    </li>
+   </ul>
+  </nav>
+ </main>
  </body>
 </html>
