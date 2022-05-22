@@ -17,12 +17,12 @@
  <main>
   <div id="content">
    <h1>Architecture Design Process</h1>
-   <h3 id="structure">Basic structure</h3>
+   <h2 class="section-title" id="header-structure">Basic structure</h2>
    <p><span>The file structure of the project as a whole was largely determined by the requirements for building Python packages using</span> <a href="https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/">setuptools</a><span>.</span>
     <span>All of the metadata needs to be in the base directory, with all of the code inside of folders for each package.</span>
     <span>Rather than listing each one in setup.cfg, we relied on setuptools's automatic package discovery, which means each folder used as a package needs an</span> <code>__init__.py</code> <span>file inside of it.</span>
     <span>We used a</span> <a href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout">flat layout</a><span>, since there was only one root package.</span></p>
-   <h3 id="cli">CLI files</h3>
+   <h2 class="section-title" id="header-cli">CLI files</h2>
    <p><span>To the furthest extent possible we tried to isolate the CLI-specific code from the code that actually does the work of the project, so it could be easily extended to support other input and output formats.</span>
     <code>setup.cfg</code> <span>lists the two entry points as</span> <code>compare</code> <span>and</span> <code>search</code><span>, which go to the</span> <code>main</code> <span>functions in</span> <code>compare.py</code> <span>and</span> <code>search.py</code><span>.</span></p>
    <p><span>Inside of those files,</span> <code>argparse</code> <span>is used to process the input. To reduce any duplicated code, two parent parsers are definied in</span> <code>__init__.py</code><span>, and the other parsers inherit them.</span>
@@ -38,7 +38,7 @@
     <span>Since users can give either a protein family name or a filename as input, it first tries treating it as a protein family name, but if there isn't a family with that name it's treated as a filename.</span>
     <span>It requires exactly two family / file names to be given as arguments, which it stores in a list in the argparse namespace.</span>
     <span>Since it requires two arguments, in order to list the known family names, users need to type</span> <code>list names</code><span>, which it then checks for before calling the comparison function.</span></p>
-   <h3 id="classes">Classes</h3>
+   <h2 class="section-title" id="header-classes">Classes</h2>
    <p><span>The classes were designed to function independently of anything related to</span> <code>argparse</code><span>, with a series of helper functions bridging the gaps between the two sides.</span>
     <span></span><code>LSVector</code><span>s store the name of a latent space and its data, and there are functions to load the data if it wasn't already given when the object was created.</span>
     <span></span><code>CompareLS</code> <span>and</span> <code>SearchLS</code> <span>only take</span> <code>LSVector</code><span>s and scipy distance function objects as parameters, so it doesn't matter where the data inside of them came from.</span></p>
@@ -59,9 +59,9 @@
     </li>
     <li><h3><a href="#content" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Sections</a></h3>
      <ul class="">
-      <li><a title="Structure" href="#structure" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Basic Structure</a></li>
-      <li><a title="CLI Files" href="#cli" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">CLI Files</a></li>
-      <li><a title="Classes" href="#classes" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Classes</a></li>
+      <li><a title="Structure" href="#header-structure" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Basic Structure</a></li>
+      <li><a title="CLI Files" href="#header-cli" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">CLI Files</a></li>
+      <li><a title="Classes" href="#header-classes" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Classes</a></li>
      </ul>
     </li>
    </ul>
