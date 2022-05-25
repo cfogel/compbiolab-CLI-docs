@@ -48,7 +48,7 @@ h1,h2,h3,h4,h5 {
     font-weight: 300
 }
 
-#content h1,#content h2,#content h3,#content h4,#content h5 {
+.gh-format h1,.gh-format h2,.gh-format h3,.gh-format h4,.gh-format h5 {
     font-weight: 400
 }
 
@@ -491,4 +491,10 @@ body .gh-format {
 
 .gh-format hr {
     box-sizing: content-box;
+}
+
+a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
 }
