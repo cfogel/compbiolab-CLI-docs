@@ -16,142 +16,29 @@
 </head>
 <body>
 <main>
-<article id="content">
-<header>
-<h1 class="title">Package <code>CLI</code></h1>
-</header>
-<section id="section-intro">
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">import argparse
-from typing import List
-
-output_opt_parser: argparse.ArgumentParser = argparse.ArgumentParser(add_help=False)
-output_opt_parser.add_argument(&#34;-out&#34;, help=&#34;Output filename&#34;, dest=&#34;output_file&#34;, type=str, default=&#34;&#34;)
-output_opt_parser.add_argument(&#34;-of&#34;, help=&#34;Output format. Default: text&#34;, dest=&#34;output_format&#34;, type=str, choices=[&#34;text&#34;, &#34;csv&#34;], default=&#34;text&#34;)
-output_opt_parser.add_argument(&#34;-om&#34;, help=&#34;Output mode. Default: a&#34;, dest=&#34;output_mode&#34;, type=str, choices=[&#39;a&#39;, &#39;w&#39;], default=&#39;a&#39;)
-
-metrics: List[str] = [&#39;euclidean&#39;, &#39;minkowski&#39;, &#39;cityblock&#39;, &#39;sqeuclidean&#39;, &#39;cosine&#39;,
-                      &#39;correlation&#39;, &#39;hamming&#39;, &#39;jaccard&#39;, &#39;chebyshev&#39;, &#39;canberra&#39;,
-                      &#39;braycurtis&#39;, &#39;yule&#39;, &#39;dice&#39;, &#39;kulsinski&#39;, &#39;rogerstanimoto&#39;,
-                      &#39;russellrao&#39;, &#39;sokalmichener&#39;, &#39;sokalsneath&#39;]
-
-dist_opt_parser: argparse.ArgumentParser = argparse.ArgumentParser(add_help=False)
-dist_opt_parser.add_argument(&#34;-m&#34;, help=&#34;Distance metric. Default: euclidean&#34;, metavar=&#34;DISTANCE_METRIC&#34;, dest=&#34;distance_metric&#34;, type=str, choices=metrics, default=&#34;euclidean&#34;)
-dist_opt_parser.add_argument(&#34;-p&#34;, help=&#34;Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2&#34;, dest=&#34;p_norm&#34;, type=int, default=2)</code></pre>
-</details>
-</section>
-<section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="CLI.CompareLS" href="CompareLS.html">CLI.CompareLS</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.CompareLSOutput" href="CompareLSOutput.html">CLI.CompareLSOutput</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.LSVector" href="LSVector.html">CLI.LSVector</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.SearchLS" href="SearchLS.html">CLI.SearchLS</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.SearchLSOutput" href="SearchLSOutput.html">CLI.SearchLSOutput</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.SearchSQ" href="SearchSQ.html">CLI.SearchSQ</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.SearchSQOutput" href="SearchSQOutput.html">CLI.SearchSQOutput</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.compare" href="compare.html">CLI.compare</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.family_list" href="family_list.html">CLI.family_list</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.get_metric" href="get_metric.html">CLI.get_metric</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.load_files" href="load_files.html">CLI.load_files</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.output_results" href="output_results.html">CLI.output_results</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.search" href="search.html">CLI.search</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.search_lat" href="search_lat.html">CLI.search_lat</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.search_seq" href="search_seq.html">CLI.search_seq</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="CLI.utils" href="utils/index.html">CLI.utils</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
-</section>
-</article>
-<nav id="sidebar">
-<h1>Index</h1>
-<div class="toc">
-<ul></ul>
-</div>
-<ul id="index">
-    <li><h2 style="font-size: 1.5em;"><a href="architecture.html">Architecture Design Process</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="examples.html">Examples</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="https://github.com/cfogel/CLI">GitHub Repository</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="https://pypi.org/project/compbiolab-CLI/">PyPI</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="usage.html">Usage</a></h2></li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="CLI.CompareLS" href="CompareLS.html">CLI.CompareLS</a></code></li>
-<li><code><a title="CLI.CompareLSOutput" href="CompareLSOutput.html">CLI.CompareLSOutput</a></code></li>
-<li><code><a title="CLI.LSVector" href="LSVector.html">CLI.LSVector</a></code></li>
-<li><code><a title="CLI.SearchLS" href="SearchLS.html">CLI.SearchLS</a></code></li>
-<li><code><a title="CLI.SearchLSOutput" href="SearchLSOutput.html">CLI.SearchLSOutput</a></code></li>
-<li><code><a title="CLI.SearchSQ" href="SearchSQ.html">CLI.SearchSQ</a></code></li>
-<li><code><a title="CLI.SearchSQOutput" href="SearchSQOutput.html">CLI.SearchSQOutput</a></code></li>
-<li><code><a title="CLI.compare" href="compare.html">CLI.compare</a></code></li>
-<li><code><a title="CLI.family_list" href="family_list.html">CLI.family_list</a></code></li>
-<li><code><a title="CLI.get_metric" href="get_metric.html">CLI.get_metric</a></code></li>
-<li><code><a title="CLI.load_files" href="load_files.html">CLI.load_files</a></code></li>
-<li><code><a title="CLI.output_results" href="output_results.html">CLI.output_results</a></code></li>
-<li><code><a title="CLI.search" href="search.html">CLI.search</a></code></li>
-<li><code><a title="CLI.search_lat" href="search_lat.html">CLI.search_lat</a></code></li>
-<li><code><a title="CLI.search_seq" href="search_seq.html">CLI.search_seq</a></code></li>
-<li><code><a title="CLI.utils" href="utils/index.html">CLI.utils</a></code></li>
-</ul>
-</li>
-</ul>
-</nav>
+    <article id="content">
+        <header>
+            <h1 class="title"><code>compbiolab-CLI</code> Documentation</h1>
+        </header>
+        <section>
+        </section>
+    </article>
+    <nav id="sidebar">
+        <h1>Index</h1>
+        <div class="toc">
+            <ul></ul>
+        </div>
+        <ul id="index">
+            <li><h2 style="font-size: 1.5em;"><a href="api.html">API Documentation</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="architecture.html">Architecture Design Process</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="examples.html">Examples</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="https://github.com/cfogel/CLI">GitHub Repository</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="https://pypi.org/project/compbiolab-CLI/">PyPI</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="usage.html">Usage</a></h2></li>
+        </ul>
+        </li>
+        </ul>
+    </nav>
 </main>
 </body>
 </html>
