@@ -34,33 +34,21 @@ from . import output_opt_parser, dist_opt_parser
 
 
 def main():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;&#39;&#39;Find the closest protein family to a new latent space or protein sequence. 
-    
-Available metrics: 
-    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
-
-To see all the available protein families, run command:
-    search names
-            
-Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
-    search lat first_new_latent_example.txt -m cosine
-
-Also you can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
-    search seq new_sequence_example.txt
-    
-    &#39;&#39;&#39;,
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;Find the closest protein family to a new latent space or protein sequence.&#39;,
                                                               formatter_class=FlexiFormatter)
-    subparsers = parser.add_subparsers(dest=&#39;command&#39;)
+    subparsers = parser.add_subparsers(dest=&#39;command&#39;, title=&#39;subcommands&#39;, metavar=&#34;{lat,seq,list names}&#34;)
     parser_ls: argparse.ArgumentParser = subparsers.add_parser(&#39;lat&#39;, help=&#34;Provide a new protein family latent space. The closest protein family to this new latent space will be shown.&#34;, parents=[
-        output_opt_parser, dist_opt_parser])
+        output_opt_parser, dist_opt_parser], formatter_class=FlexiFormatter, epilog=&#39;&#39;&#39;Available metrics:
+    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+&#39;&#39;&#39;)
     parser_ls.add_argument(&#39;latent_space&#39;, metavar=&#34;filename&#34;, help=&#34;The file name of a new latent space.&#34;, type=str, nargs=&#39;+&#39;)
 
     parser_seq: argparse.ArgumentParser = subparsers.add_parser(&#39;seq&#39;, help=&#34;Provide a protein sequence to get the closest protein family for this sequence.&#34;, parents=[
         output_opt_parser])
     parser_seq.add_argument(&#39;sequence&#39;, metavar=&#34;filename&#34;, help=&#34;The name of the file containing a protein sequence.&#34;, type=str, nargs=&#39;+&#39;)
 
-    parser_names: argparse.ArgumentParser = subparsers.add_parser(&#39;names&#39;, help=&#34;Show available protein family names&#34;)
-
+    parser_names: argparse.ArgumentParser = subparsers.add_parser(&#39;list names&#39;, aliases=[&#39;list&#39;], help=&#34;Show available protein family names&#34;)
+    parser_names.add_argument(&#39;names&#39;, nargs=&#39;?&#39;, help=argparse.SUPPRESS)
     parser_ls.set_defaults(func=ls_search)
     parser_seq.set_defaults(func=seq_search)
     parser_names.set_defaults(func=print_families)
@@ -93,33 +81,21 @@ if __name__ == &#34;__main__&#34;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def main():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;&#39;&#39;Find the closest protein family to a new latent space or protein sequence. 
-    
-Available metrics: 
-    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
-
-To see all the available protein families, run command:
-    search names
-            
-Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
-    search lat first_new_latent_example.txt -m cosine
-
-Also you can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
-    search seq new_sequence_example.txt
-    
-    &#39;&#39;&#39;,
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;Find the closest protein family to a new latent space or protein sequence.&#39;,
                                                               formatter_class=FlexiFormatter)
-    subparsers = parser.add_subparsers(dest=&#39;command&#39;)
+    subparsers = parser.add_subparsers(dest=&#39;command&#39;, title=&#39;subcommands&#39;, metavar=&#34;{lat,seq,list names}&#34;)
     parser_ls: argparse.ArgumentParser = subparsers.add_parser(&#39;lat&#39;, help=&#34;Provide a new protein family latent space. The closest protein family to this new latent space will be shown.&#34;, parents=[
-        output_opt_parser, dist_opt_parser])
+        output_opt_parser, dist_opt_parser], formatter_class=FlexiFormatter, epilog=&#39;&#39;&#39;Available metrics:
+    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+&#39;&#39;&#39;)
     parser_ls.add_argument(&#39;latent_space&#39;, metavar=&#34;filename&#34;, help=&#34;The file name of a new latent space.&#34;, type=str, nargs=&#39;+&#39;)
 
     parser_seq: argparse.ArgumentParser = subparsers.add_parser(&#39;seq&#39;, help=&#34;Provide a protein sequence to get the closest protein family for this sequence.&#34;, parents=[
         output_opt_parser])
     parser_seq.add_argument(&#39;sequence&#39;, metavar=&#34;filename&#34;, help=&#34;The name of the file containing a protein sequence.&#34;, type=str, nargs=&#39;+&#39;)
 
-    parser_names: argparse.ArgumentParser = subparsers.add_parser(&#39;names&#39;, help=&#34;Show available protein family names&#34;)
-
+    parser_names: argparse.ArgumentParser = subparsers.add_parser(&#39;list names&#39;, aliases=[&#39;list&#39;], help=&#34;Show available protein family names&#34;)
+    parser_names.add_argument(&#39;names&#39;, nargs=&#39;?&#39;, help=argparse.SUPPRESS)
     parser_ls.set_defaults(func=ls_search)
     parser_seq.set_defaults(func=seq_search)
     parser_names.set_defaults(func=print_families)

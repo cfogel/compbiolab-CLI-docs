@@ -51,7 +51,8 @@ def run(args: argparse.Namespace):
     family_list: List[str] = args.family_name
 
     # Set the distance metric
-    distance_function: Callable = get_distance_function(args.distance_metric)
+    distance_metric: str = args.distance_metric
+    distance_function: Callable = get_distance_function(distance_metric)
 
     # The p-norm to apply for Minkowski
     p_norm: int = args.p_norm  # default is 2
@@ -76,30 +77,17 @@ def run(args: argparse.Namespace):
 
 
 def main():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;&#39;&#39;Find the distance between fingerprints of two protein families. 
-    
-Available metrics: 
-    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
-       
-As an example you can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
-    compare ATKA_ATKC CDSA_RSEP
-    
-    
-Or if you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
-    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
-    
-    
-To show all available protein family names, run the command:
-    compare list names
-    
-    &#39;&#39;&#39;,
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(usage=&#39;&#39;&#39;%(prog)s [-h] &lt;protein_family&gt; &lt;protein_family&gt; [output_options] [distance_options]
+                    list names&#39;&#39;&#39;, description=&#39;Find the distance between fingerprints of two protein families.&#39;,
                                                               formatter_class=FlexiFormatter, parents=[
-                                                                output_opt_parser, dist_opt_parser])
+                                                                output_opt_parser, dist_opt_parser], epilog=&#39;&#39;&#39;Available distance metrics:
+   euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+&#39;&#39;&#39;)
     parser.add_argument(&#34;family_name&#34;, help=&#34;Protein family&#39;s name. Provide an existing protein family&#39;s name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.&#34;, metavar=&#34;protein_family&#34;, nargs=2, type=str)
+    parser.add_argument(&#34;ln&#34;, metavar=&#39;list names&#39;, nargs=argparse.SUPPRESS, help=&#34;Show available protein family names&#34;)
 
     parser.set_defaults(func=run)
     args: argparse.Namespace = parser.parse_args()
-    args.help_text: str = parser.format_help()
     args.func(args)
 
 
@@ -124,30 +112,17 @@ if __name__ == &#34;__main__&#34;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def main():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description=&#39;&#39;&#39;Find the distance between fingerprints of two protein families. 
-    
-Available metrics: 
-    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
-       
-As an example you can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
-    compare ATKA_ATKC CDSA_RSEP
-    
-    
-Or if you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
-    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
-    
-    
-To show all available protein family names, run the command:
-    compare list names
-    
-    &#39;&#39;&#39;,
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(usage=&#39;&#39;&#39;%(prog)s [-h] &lt;protein_family&gt; &lt;protein_family&gt; [output_options] [distance_options]
+                    list names&#39;&#39;&#39;, description=&#39;Find the distance between fingerprints of two protein families.&#39;,
                                                               formatter_class=FlexiFormatter, parents=[
-                                                                output_opt_parser, dist_opt_parser])
+                                                                output_opt_parser, dist_opt_parser], epilog=&#39;&#39;&#39;Available distance metrics:
+   euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+&#39;&#39;&#39;)
     parser.add_argument(&#34;family_name&#34;, help=&#34;Protein family&#39;s name. Provide an existing protein family&#39;s name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.&#34;, metavar=&#34;protein_family&#34;, nargs=2, type=str)
+    parser.add_argument(&#34;ln&#34;, metavar=&#39;list names&#39;, nargs=argparse.SUPPRESS, help=&#34;Show available protein family names&#34;)
 
     parser.set_defaults(func=run)
     args: argparse.Namespace = parser.parse_args()
-    args.help_text: str = parser.format_help()
     args.func(args)</code></pre>
 </details>
 </dd>
@@ -178,7 +153,8 @@ To show all available protein family names, run the command:
     family_list: List[str] = args.family_name
 
     # Set the distance metric
-    distance_function: Callable = get_distance_function(args.distance_metric)
+    distance_metric: str = args.distance_metric
+    distance_function: Callable = get_distance_function(distance_metric)
 
     # The p-norm to apply for Minkowski
     p_norm: int = args.p_norm  # default is 2

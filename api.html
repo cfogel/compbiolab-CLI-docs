@@ -29,9 +29,10 @@
 from typing import List
 
 output_opt_parser: argparse.ArgumentParser = argparse.ArgumentParser(add_help=False)
-output_opt_parser.add_argument(&#34;-out&#34;, help=&#34;Output filename&#34;, dest=&#34;output_file&#34;, type=str, default=&#34;&#34;)
-output_opt_parser.add_argument(&#34;-of&#34;, help=&#34;Output format. Default: text&#34;, dest=&#34;output_format&#34;, type=str, choices=[&#34;text&#34;, &#34;csv&#34;], default=&#34;text&#34;)
-output_opt_parser.add_argument(&#34;-om&#34;, help=&#34;Output mode. Default: a&#34;, dest=&#34;output_mode&#34;, type=str, choices=[&#39;a&#39;, &#39;w&#39;], default=&#39;a&#39;)
+output_opt_group = output_opt_parser.add_argument_group(&#34;output options&#34;)
+output_opt_group.add_argument(&#34;-out&#34;, help=&#34;Output filename&#34;, dest=&#34;output_file&#34;, type=str, default=&#34;&#34;)
+output_opt_group.add_argument(&#34;-of&#34;, help=&#34;Output format. Default: %(default)s&#34;, dest=&#34;output_format&#34;, type=str, choices=[&#34;text&#34;, &#34;csv&#34;], default=&#34;text&#34;)
+output_opt_group.add_argument(&#34;-om&#34;, help=&#34;Output mode. Default: %(default)s&#34;, dest=&#34;output_mode&#34;, type=str, choices=[&#39;a&#39;, &#39;w&#39;], default=&#39;a&#39;)
 
 metrics: List[str] = [&#39;euclidean&#39;, &#39;minkowski&#39;, &#39;cityblock&#39;, &#39;sqeuclidean&#39;, &#39;cosine&#39;,
                       &#39;correlation&#39;, &#39;hamming&#39;, &#39;jaccard&#39;, &#39;chebyshev&#39;, &#39;canberra&#39;,
@@ -39,8 +40,9 @@ metrics: List[str] = [&#39;euclidean&#39;, &#39;minkowski&#39;, &#39;cityblock&#
                       &#39;russellrao&#39;, &#39;sokalmichener&#39;, &#39;sokalsneath&#39;]
 
 dist_opt_parser: argparse.ArgumentParser = argparse.ArgumentParser(add_help=False)
-dist_opt_parser.add_argument(&#34;-m&#34;, help=&#34;Distance metric. Default: euclidean&#34;, metavar=&#34;DISTANCE_METRIC&#34;, dest=&#34;distance_metric&#34;, type=str, choices=metrics, default=&#34;euclidean&#34;)
-dist_opt_parser.add_argument(&#34;-p&#34;, help=&#34;Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2&#34;, dest=&#34;p_norm&#34;, type=int, default=2)</code></pre>
+dist_opt_group = dist_opt_parser.add_argument_group(&#34;distance options&#34;)
+dist_opt_group.add_argument(&#34;-m&#34;, help=&#34;Distance metric. Default: %(default)s&#34;, metavar=&#34;DISTANCE_METRIC&#34;, dest=&#34;distance_metric&#34;, type=str, choices=metrics, default=&#34;euclidean&#34;)
+dist_opt_group.add_argument(&#34;-p&#34;, help=&#34;Scalar. The p-norm to apply for Minkowski, weighted and unweighted. Default: 2&#34;, dest=&#34;p_norm&#34;, type=int, default=2)</code></pre>
             </details>
         </section>
         <section>
