@@ -18,23 +18,24 @@
    <h1 id="usage">Usage</h1>
    <h2 id="compare">Comparing protein sequences</h2>
    <p><span>Find the distance between fingerprints of two protein families</span></p>
-   <pre><code class="language-bash">compare [-h] &lt;protein_family&gt; &lt;protein_family&gt; [distance_options] [output_options]
-</code></pre>
+<pre><code class="language-bash">compare [-h] &lt;protein_family&gt; &lt;protein_family&gt; [distance_options] [output_options]</code>
+<code class="language-bash">             list names</code></pre>
    <h3 id="compare-args">Comparing Arguments</h3>
    <ul>
     <li><p><code class="language-bash">protein_family</code></p><p><span>Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.</span></p></li>
+       <ul>
     <li><p><code class="language-bash">distance_options</code></p><p> <span><a href="#distance-flags">Optional distance flags</a></span></p></li>
     <li><p><code class="language-bash">output_options</code></p><p><span><a href="#output-flags">Optional output flags</a></span></p></li>
+       </ul>
+       <li><p><code class="language-bash">list names</code></p><p><span>Show available protein family names</span></p></li>
    </ul>
    <h2 id="search">Searching</h2>
    <p><span>Find the closest family to a new protein sequence or family</span></p>
-   <pre><code class="language-bash">search [-h] names
-	    lat &lt;latent space&gt; [distance_options] [output_options]
-	    seq &lt;sequence&gt; [output_options]
-</code></pre>
+<pre><code class="language-bash">search [-h] lat &lt;latent space&gt; [distance_options] [output_options]</code>
+<code class="language-bash">            seq &lt;sequence&gt; [output_options]</code>
+<code class="language-bash">            list names</code></pre>
    <h3 id="search-args">Searching Arguments</h3>
    <ul>
-    <li><p><code class="language-bash">names</code></p><p><span>Show available protein family names</span></p></li>
     <li><p><code class="language-bash">lat &lt;filename&gt; [distance_options] [output_options]</code></p><p><span>Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.</span></p>
      <ul>
          <li><p><code class="language-bash">distance_options</code></p><p> <span><a href="#distance-flags">Optional distance flags</a></span></p></li>
@@ -43,7 +44,9 @@
     <li><p><code class="language-bash">seq &lt;filename&gt; [output_options]</code> <strong>(Requires 64-bit Python 3.7.x)</strong></p><p><span>Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.</span></p>
      <ul>
          <li><p><code class="language-bash">output_options</code></p><p><span><a href="#output-flags">Optional output flags</a></span></p></li>
-     </ul></li>
+     </ul>
+       <li><p><code class="language-bash">list names</code></p><p><span>Show available protein family names</span></p></li>
+       </li>
    </ul>
 
       <h2 id="flags">Optional Flags</h2>
@@ -63,31 +66,6 @@
 
       <h2 id="metrics">Available metrics</h2>
    <p><em>euclidean (default)</em><span>, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath</span></p>
-   <h2 id="examples">Examples</h2>
-   <p><span>To see all the available protein families, run command</span>:</p>
-   <pre><code class="language-bash">compare list names
-</code></pre>
-   <p><span>You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command</span>:</p>
-   <pre><code class="language-bash">compare ATKA_ATKC CDSA_RSEP
-</code></pre>
-      <p><img src="https://user-images.githubusercontent.com/1418557/169188051-77bf99a9-2427-4d9a-b6a9-536d81fa0a73.png" alt="example-1" /></p>
-   <p><span>If you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command</span>:</p>
-   <pre><code class="language-bash">compare ATKA_ATKC second_new_latent_example.txt -m cityblock
-</code></pre>
-      <p><img src="https://user-images.githubusercontent.com/1418557/169188080-8f53426f-b754-4f40-8e0e-396f842ebfa1.png" alt="example-2" /></p>
-   <p><span>If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command</span>:</p>
-   <pre><code class="language-bash">compare first_new_latent_example.txt second_new_latent_example.txt -m cosine
-</code></pre>
-      <p><img src="https://user-images.githubusercontent.com/1418557/169188109-0b55b0a1-869a-4dad-be19-bcc6012ddd86.png" alt="example-3" /></p>
-   <hr>
-   <p><span>You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command</span>:</p>
-   <pre><code class="language-bash">search lat first_new_latent_example.txt -m cosine
-</code></pre>
-      <p><img src="https://user-images.githubusercontent.com/1418557/169188127-06af9faa-81b7-489a-b87b-82ef9b1b4129.png" alt="example-4" /></p>
-   <p><span>You can find the closest family to a new protein sequence</span> (<span>for example new_sequence_example.txt</span>) <span>by running</span>:</p>
-   <pre><code class="language-bash">search seq new_sequence_example.txt
-</code></pre>
-      <p><img src="https://user-images.githubusercontent.com/1418557/169188138-add1c6be-50a8-482b-9ad1-c9c4f463de45.png" alt="example-5" /></p>
   </div>
      <nav id="sidebar">
          <h1>Index</h1>
@@ -106,7 +84,6 @@
                      <li><a title="Search" href="#search" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Search</a></li>
                      <li><a title="Flags" href="#flags" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Optional Flags</a></li>
                      <li><a title="Metrics" href="#metrics" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Distance Metrics</a></li>
-                     <li><a title="Examples" href="#examples" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Examples</a></li>
                  </ul>
              </li>
          </ul>

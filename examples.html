@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Examples</title>
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://cfogel.github.io/compbiolab-CLI-docs/assets/css/style.css">
+    <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+    <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+    <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+    <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+    <div id="content">
+        <h1 id="examples">Examples</h1>
+        <p><span>You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command</span>:</p>
+        <pre><code class="language-bash">compare ATKA_ATKC CDSA_RSEP
+</code></pre>
+        <p><img src="images/example-1.png" alt="example-1" /></p>
+        <p><span>If you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command</span>:</p>
+        <pre><code class="language-bash">compare ATKA_ATKC second_new_latent_example.txt -m cityblock
+</code></pre>
+        <p><img src="images/example-2.png" alt="example-2" /></p>
+        <p><span>If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command</span>:</p>
+        <pre><code class="language-bash">compare first_new_latent_example.txt second_new_latent_example.txt -m cosine
+</code></pre>
+        <p><img src="images/example-3.png" alt="example-3" /></p>
+        <hr>
+        <p><span>You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command</span>:</p>
+        <pre><code class="language-bash">search lat first_new_latent_example.txt -m cosine
+</code></pre>
+        <p><img src="images/example-4.png" alt="example-4" /></p>
+        <p><span>You can find the closest family to a new protein sequence</span> (<span>for example new_sequence_example.txt</span>) <span>by running</span>:</p>
+        <pre><code class="language-bash">search seq new_sequence_example.txt
+</code></pre>
+        <p><img src="images/example-5.png" alt="example-5" /></p>
+    </div>
+    <nav id="sidebar">
+        <h1>Index</h1>
+        <div class="toc">
+            <ul></ul>
+        </div>
+        <ul id="index">
+            <li><h3>Super-module</h3>
+                <ul>
+                    <li><code><a title="CLI" href="index.html" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">CLI</a></code></li>
+                </ul>
+            </li>
+            <li><h3><a href="#content" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Sections</a></h3>
+                <ul class="">
+                    <li><a title="Examples" href="#examples" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Examples</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>
