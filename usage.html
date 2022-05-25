@@ -11,61 +11,77 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
     <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
- <body>
- <main>
-  <div id="content" class="gh-format">
-   <h1 id="usage">Usage</h1>
-   <h2 id="compare">Comparing protein sequences</h2>
-   <p><span>Find the distance between fingerprints of two protein families</span></p>
+<body>
+<main>
+<div id="content" class="gh-format">
+    <h1 id="usage">Usage</h1>
+    <h2 id="compare">Comparing protein sequences</h2>
+    <p>Find the distance between fingerprints of two protein families</p>
 <pre><code class="language-bash">compare [-h] &lt;protein_family&gt; &lt;protein_family&gt; [distance_options] [output_options]</code>
 <code class="language-bash">             list names</code></pre>
-   <h3 id="compare-args">Comparing Arguments</h3>
-   <ul>
-    <li><p><code class="language-bash">protein_family</code></p><p><span>Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.</span></p></li>
-       <ul>
-    <li><p><code class="language-bash">distance_options</code></p><p> <span><a href="#distance-flags">Optional distance flags</a></span></p></li>
-    <li><p><code class="language-bash">output_options</code></p><p><span><a href="#output-flags">Optional output flags</a></span></p></li>
-       </ul>
-       <li><p><code class="language-bash">list names</code></p><p><span>Show available protein family names</span></p></li>
-   </ul>
-   <h2 id="search">Searching</h2>
-   <p><span>Find the closest family to a new protein sequence or family</span></p>
+    <h3 id="compare-args">Comparing Arguments</h3>
+    <dl>
+        <dt><code class="language-bash">protein_family</code></dt>
+            <dd><p>Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.</p>
+                <dl>
+                    <dt><code class="language-bash">distance_options</code></dt>
+                        <dd><a href="#distance-flags">Optional distance flags</a></dd>
+                    <dt><code class="language-bash">output_options</code></dt>
+                        <dd><a href="#output-flags">Optional output flags</a></dd>
+                </dl>
+            </dd>
+        <dt><code class="language-bash">list names</code></dt>
+            <dd><p>Show available protein family names</p></dd>
+    </dl>
+    <h2 id="search">Searching</h2>
+    <p>Find the closest family to a new protein sequence or family</p>
 <pre><code class="language-bash">search [-h] lat &lt;latent space&gt; [distance_options] [output_options]</code>
 <code class="language-bash">            seq &lt;sequence&gt; [output_options]</code>
 <code class="language-bash">            list names</code></pre>
-   <h3 id="search-args">Searching Arguments</h3>
-   <ul>
-    <li><p><code class="language-bash">lat &lt;filename&gt; [distance_options] [output_options]</code></p><p><span>Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.</span></p>
-     <ul>
-         <li><p><code class="language-bash">distance_options</code></p><p> <span><a href="#distance-flags">Optional distance flags</a></span></p></li>
-         <li><p><code class="language-bash">output_options</code></p><p><span><a href="#output-flags">Optional output flags</a></span></p></li>
-     </ul></li>
-    <li><p><code class="language-bash">seq &lt;filename&gt; [output_options]</code> <strong>(Requires 64-bit Python 3.7.x)</strong></p><p><span>Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.</span></p>
-     <ul>
-         <li><p><code class="language-bash">output_options</code></p><p><span><a href="#output-flags">Optional output flags</a></span></p></li>
-     </ul>
-       <li><p><code class="language-bash">list names</code></p><p><span>Show available protein family names</span></p></li>
-       </li>
-   </ul>
+    <h3 id="search-args">Searching Arguments</h3>
+    <dl>
+        <dt><code class="language-bash">lat &lt;filename&gt; [distance_options] [output_options]</code></dt>
+            <dd><p>Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.</p>
+                <dl>
+                    <dt><code class="language-bash">distance_options</code></dt>
+                        <dd><a href="#distance-flags">Optional distance flags</a></dd>
+                    <dt><code class="language-bash">output_options</code></dt>
+                        <dd><a href="#output-flags">Optional output flags</a></dd>
+                </dl>
+            </dd>
+        <dt><p><code class="language-bash">seq &lt;filename&gt; [output_options]</code> <strong>(Requires 64-bit Python 3.7.x)</strong></p></dt>
+            <dd><p>Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.</p>
+                <dl>
+                    <dt><code class="language-bash">output_options</code></dt>
+                        <dd><a href="#output-flags">Optional output flags</a></dd>
+                </dl>
+        <dt><code class="language-bash">list names</code></dt>
+            <dd><p>Show available protein family names</p></dd>
+    </dl>
 
-      <h2 id="flags">Optional Flags</h2>
+    <h2 id="flags">Optional Flags</h2>
 
-      <h3 id="output-flags">Output Options</h3>
-          <ul>
-              <li><p><code class="language-bash">-out</code></p><p> <span>Output filename</span></p></li>
-              <li><p><code class="language-bash">-of</code></p><p> <span>Output format, text or csv. Default</span>: <span>text</span></p></li>
-              <li><p><code class="language-bash">-om</code></p><p> <span>Output mode, a</span>[ppend] <span>or w</span>[rite]<span>. Default</span>: <span>a</span></p></li>
-          </ul>
+    <h3 id="output-flags">Output Options</h3>
+        <dl>
+            <dt><code class="language-bash">-out</code></dt>
+                <dd>Output filename</dd>
+            <dt><code class="language-bash">-of</code></dt>
+                <dd>Output format, text or csv. <span>Default: text</span></dd>
+            <dt><code class="language-bash">-om</code></dt>
+                <dd>Output mode, a[ppend] or w[rite]. <span>Default: a</span></dd>
+        </dl>
 
-      <h3 id="distance-flags">Distance Options</h3>
-      <ul>
-          <li><p><code class="language-bash">-m</code></p><p> <span>Distance metric. Default</span>: <span>euclidean</span></p></li>
-          <li><p><code class="language-bash">-p</code></p><p> <span>Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default</span>: <span>2</span></p></li>
-      </ul>
+    <h3 id="distance-flags">Distance Options</h3>
+        <dl>
+            <dt><code class="language-bash">-m</code></dt>
+                <dd>Distance metric. <span>Default: euclidean</span></dd>
+            <dt><code class="language-bash">-p</code></dt>
+                <dd>Scalar. The p-norm to apply for Minkowski, weighted and unweighted. <span>Default: 2</span></dd>
+        </dl>
 
-      <h2 id="metrics">Available metrics</h2>
-   <p><em>euclidean (default)</em><span>, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath</span></p>
-  </div>
+    <h2 id="metrics">Available metrics</h2>
+    <p><em>euclidean (default)</em>, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath</p>
+</div>
      <nav id="sidebar">
          <h1>Index</h1>
          <div class="toc">
@@ -89,6 +105,6 @@
              </li>
          </ul>
      </nav>
- </main>
- </body>
+</main>
+</body>
 </html>

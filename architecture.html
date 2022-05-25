@@ -1,70 +1,122 @@
 <!doctype html>
 <html>
 <head>
- <meta charset="UTF-8">
- <title>Architecture Design</title>
- <meta name="description" content="" />
- <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
- <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
- <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
- <link rel="stylesheet" href="style.css">
- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
- <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+    <meta charset="UTF-8">
+    <title>Architecture Design</title>
+    <meta name="description" content=""/>
+    <link rel="preload stylesheet" as="style"
+          href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
+          integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+    <link rel="preload stylesheet" as="style"
+          href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css"
+          integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+    <link rel="stylesheet preload" as="style"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"
+            integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+    <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
- <body>
- <main>
-  <div id="content" class="gh-format">
-   <h1>Architecture Design Process</h1>
-   <h2 class="section-title" id="header-structure">Basic structure</h2>
-   <p><span>The file structure of the project as a whole was largely determined by the requirements for building Python packages using</span> <a href="https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/">setuptools</a><span>.</span>
-    <span>All of the metadata needs to be in the base directory, with all of the code inside of folders for each package.</span>
-    <span>Rather than listing each one in setup.cfg, we relied on setuptools's automatic package discovery, which means each folder used as a package needs an</span> <code>__init__.py</code> <span>file inside of it.</span>
-    <span>We used a</span> <a href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout">flat layout</a><span>, since there was only one root package.</span></p>
-   <h2 class="section-title" id="header-cli">CLI files</h2>
-   <p><span>To the furthest extent possible we tried to isolate the CLI-specific code from the code that actually does the work of the project, so it could be easily extended to support other input and output formats.</span>
-    <code>setup.cfg</code> <span>lists the two entry points as</span> <code>compare</code> <span>and</span> <code>search</code><span>, which go to the</span> <code>main</code> <span>functions in</span> <code>compare.py</code> <span>and</span> <code>search.py</code><span>.</span></p>
-   <p><span>Inside of those files,</span> <code>argparse</code> <span>is used to process the input. To reduce any duplicated code, two parent parsers are definied in</span> <code>__init__.py</code><span>, and the other parsers inherit them.</span>
-    <span>One of them</span> (<code>dist_opt_parser</code>) <span>enables optional flags to specify which distance metric will be used, and the other</span> (<code>output_opt_parser</code>) <span>allows users to choose between different forms of output.</span></p>
-   <p><span>The current options allow output to be printed to</span> <code>stdout</code> (<span>default) or saved to a file, and files can either include all of the human-readable text or just the values in csv format.</span>
-    <span>For files that already exist, users have the option to either overwrite that data or to append the new information to the end of it.</span></p>
-   <p><code>search.py</code> <span>also uses subparsers, so the first argument after</span> <code>search</code> <span>selects which parser to use.</span>
-    <span>One of them does latent space searches, and inherits both of the parent parsers, and the other handles sequence searches and only inherits</span> <code>output_opt_parser</code><span>.</span>
-    <span>A third subparser was added to print the full list of protein family names, but it doesn't accept any arguments and functions more like a flag when used at the command line.</span>
-    <span>Each subparser goes to a different function after it's used, so there's no need to guess which one the users used.</span>
-    <span>Both latent space searches and sequence searches can accept any number of filenames, which it appends to a list stored in the argparse namespace.</span></p>
-   <p><code>compare.py</code> <span>only uses a single parser in the file, but it still inherits both of the parent parsers.</span>
-    <span>Since users can give either a protein family name or a filename as input, it first tries treating it as a protein family name, but if there isn't a family with that name it's treated as a filename.</span>
-    <span>It requires exactly two family / file names to be given as arguments, which it stores in a list in the argparse namespace.</span>
-    <span>Since it requires two arguments, in order to list the known family names, users need to type</span> <code>list names</code><span>, which it then checks for before calling the comparison function.</span></p>
-   <h2 class="section-title" id="header-classes">Classes</h2>
-   <p><span>The classes were designed to function independently of anything related to</span> <code>argparse</code><span>, with a series of helper functions bridging the gaps between the two sides.</span>
-    <span></span><code>LSVector</code><span>s store the name of a latent space and its data, and there are functions to load the data if it wasn't already given when the object was created.</span>
-    <span></span><code>CompareLS</code> <span>and</span> <code>SearchLS</code> <span>only take</span> <code>LSVector</code><span>s and scipy distance function objects as parameters, so it doesn't matter where the data inside of them came from.</span></p>
-   <p><span>The results returned from the comparisons and searches are in format-agnostic</span> <code>CompareLSOutput</code><span>,</span> <code>SearchLSOutput</code><span>, and</span> <code>SearchSQOutput</code>  <span>objects, which have methods for different ways to output the results.</span>
-    <span></span><code>output_results.py</code> <span>uses the</span> <code>argparse</code> <span>arguments to determine which one should be called, and since the method names are the same in all of the output classes it doesn't matter which one it's operating on.</span></p>
-   <img src="images/diagram.png">
-  </div>
-  <nav id="sidebar">
-   <h1>Index</h1>
-   <div class="toc">
-    <ul></ul>
-   </div>
-   <ul id="index">
-    <li><h2 style="font-size: 1.5em;"><a href="api.html" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">API Documentation</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="architecture.html" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Architecture Design Process</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="examples.html" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Examples</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="https://github.com/cfogel/CLI" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">GitHub Repository</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="https://pypi.org/project/compbiolab-CLI/" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">PyPI</a></h2></li>
-    <li><h2 style="font-size: 1.5em;"><a href="usage.html" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Usage</a></h2></li>
-    <li><h3><a href="#content" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Sections</a></h3>
-     <ul class="">
-      <li><a title="Structure" href="#header-structure" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Basic Structure</a></li>
-      <li><a title="CLI Files" href="#header-cli" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">CLI Files</a></li>
-      <li><a title="Classes" href="#header-classes" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Classes</a></li>
-     </ul>
-    </li>
-   </ul>
-  </nav>
- </main>
- </body>
+<body>
+<main>
+    <div id="content" class="gh-format">
+        <h1>Architecture Design Process</h1>
+        <h2 class="section-title" id="header-structure">Basic structure</h2>
+        <p>The file structure of the project as a whole was largely determined by the requirements for building Python
+            packages using <a
+                    href="https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/">setuptools</a>.
+            All of the metadata needs to be in the base directory, with all of the code inside of folders for each
+            package.
+            Rather than listing each one in setup.cfg, we relied on setuptools's automatic package discovery, which
+            means each folder used as a package needs an <code>__init__.py</code> file inside of it.
+            We used a <a href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout">flat
+                layout</a>, since there was only one root package.</p>
+        <h2 class="section-title" id="header-cli">CLI files</h2>
+        <p>To the furthest extent possible we tried to isolate the CLI-specific code from the code that actually does
+            the work of the project, so it could be easily extended to support other input and output formats.
+            <code>setup.cfg</code> lists the two entry points as <code>compare</code> and <code>search</code>, which go
+            to the <code>main</code> functions in <code>compare.py</code> and <code>search.py</code>.</p>
+        <p>Inside of those files, <code>argparse</code> is used to process the input. To reduce any duplicated code, two
+            parent parsers are definied in <code>__init__.py</code>, and the other parsers inherit them.
+            One of them (<code>dist_opt_parser</code>) enables optional flags to specify which distance metric will be
+            used, and the other (<code>output_opt_parser</code>) allows users to choose between different forms of
+            output.</p>
+        <p>The current options allow output to be printed to <code>stdout</code> (default) or saved to a file, and files
+            can either include all of the human-readable text or just the values in csv format.
+            For files that already exist, users have the option to either overwrite that data or to append the new
+            information to the end of it.</p>
+        <p><code>search.py</code> also uses subparsers, so the first argument after <code>search</code> selects which
+            parser to use.
+            One of them does latent space searches, and inherits both of the parent parsers, and the other handles
+            sequence searches and only inherits <code>output_opt_parser</code>.
+            A third subparser was added to print the full list of protein family names, but it doesn't accept any
+            arguments and functions more like a flag when used at the command line.
+            Each subparser goes to a different function after it's used, so there's no need to guess which one the users
+            used.
+            Both latent space searches and sequence searches can accept any number of filenames, which it appends to a
+            list stored in the argparse namespace.</p>
+        <p><code>compare.py</code> only uses a single parser in the file, but it still inherits both of the parent
+            parsers.
+            Since users can give either a protein family name or a filename as input, it first tries treating it as a
+            protein family name, but if there isn't a family with that name it's treated as a filename.
+            It requires exactly two family / file names to be given as arguments, which it stores in a list in the
+            argparse namespace.
+            Since it requires two arguments, in order to list the known family names, users need to type <code>list
+                names</code>, which it then checks for before calling the comparison function.</p>
+        <h2 class="section-title" id="header-classes">Classes</h2>
+        <p>The classes were designed to function independently of anything related to <code>argparse</code>, with a
+            series of helper functions bridging the gaps between the two sides.
+            <code>LSVector</code>s store the name of a latent space and its data, and there are functions to load the
+            data if it wasn't already given when the object was created.
+            <code>CompareLS</code> and <code>SearchLS</code> only take <code>LSVector</code>s and scipy distance
+            function objects as parameters, so it doesn't matter where the data inside of them came from.</p>
+        <p>The results returned from the comparisons and searches are in format-agnostic <code>CompareLSOutput</code>,
+            <code>SearchLSOutput</code>, and <code>SearchSQOutput</code> objects, which have methods for different ways
+            to output the results.
+            <code>output_results.py</code> uses the <code>argparse</code> arguments to determine which one should be
+            called, and since the method names are the same in all of the output classes it doesn't matter which one
+            it's operating on.</p>
+        <img src="images/diagram.png">
+    </div>
+    <nav id="sidebar">
+        <h1>Index</h1>
+        <div class="toc">
+            <ul></ul>
+        </div>
+        <ul id="index">
+            <li><h2 style="font-size: 1.5em;"><a href="api.html"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">API
+                Documentation</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="architecture.html"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Architecture
+                Design Process</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="examples.html"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Examples</a>
+            </h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="https://github.com/cfogel/CLI"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">GitHub
+                Repository</a></h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="https://pypi.org/project/compbiolab-CLI/"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">PyPI</a>
+            </h2></li>
+            <li><h2 style="font-size: 1.5em;"><a href="usage.html"
+                                                 style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Usage</a>
+            </h2></li>
+            <li><h3><a href="#content" style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Sections</a>
+            </h3>
+                <ul class="">
+                    <li><a title="Structure" href="#header-structure"
+                           style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Basic
+                        Structure</a></li>
+                    <li><a title="CLI Files" href="#header-cli"
+                           style="color: #058;text-decoration: none;transition: color .3s ease-in-out">CLI Files</a>
+                    </li>
+                    <li><a title="Classes" href="#header-classes"
+                           style="color: #058;text-decoration: none;transition: color .3s ease-in-out">Classes</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
 </html>
